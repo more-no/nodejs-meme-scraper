@@ -2,6 +2,8 @@ import * as fs from 'fs';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import * as path from 'path';
+import { parse } from 'node-html-parser';
+import puppeteer from 'puppeteer';
 
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 const folderPath = './memes';
@@ -25,5 +27,16 @@ fs.access(folderPath, (error) => {
 const response = await axios.get(
   'https://memegen-link-examples-upleveled.netlify.app/',
 );
+
 const html = response.data;
-console.log(html);
+const root = parse(html);
+
+function getSrc() {
+  const a = root.getElementsByTagName('img');
+  //  const img = root.getAttribute('src');
+  const num = a.length;
+  console.log(`There are ${num} images`);
+  console.log(a[0]);
+}
+
+getSrc();
