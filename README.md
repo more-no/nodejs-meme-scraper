@@ -1,4 +1,4 @@
-#Meme Scraper
+# Meme Scraper
 
 Create a cli (Command Line Interface) application that scrapes the current version of this website:
 
