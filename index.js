@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import axios from 'axios';
 
 const path = './memes';
 
