@@ -1,14 +1,16 @@
 import * as fs from 'fs';
 import axios from 'axios';
+import * as cheerio from 'cheerio';
+import * as path from 'path';
 
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
-const path = './memes';
+const folderPath = './memes';
 
-fs.access(path, (error) => {
+fs.access(folderPath, (error) => {
   // To check if the given directory already exists or not
   if (error) {
     // If current directory does not exist then create it
-    fs.mkdir(path, (error) => {
+    fs.mkdir(folderPath, (error) => {
       if (error) {
         console.log(error);
       } else {
@@ -19,3 +21,9 @@ fs.access(path, (error) => {
     console.log('Given Directory already exists.');
   }
 });
+
+const response = await axios.get(
+  'https://memegen-link-examples-upleveled.netlify.app/',
+);
+const html = response.data;
+console.log(html);
