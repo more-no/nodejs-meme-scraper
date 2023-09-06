@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import axios from 'axios';
 
+const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 const path = './memes';
 
 fs.access(path, (error) => {
