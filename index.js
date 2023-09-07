@@ -2,9 +2,6 @@ import * as fs from 'fs';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 import got from 'got';
-// import * as path from 'path';
-// import { parse } from 'node-html-parser';
-// import puppeteer from 'puppeteer';
 
 const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 const folderPath = './memes';
@@ -29,9 +26,6 @@ const response = await axios.get(
   'https://memegen-link-examples-upleveled.netlify.app/',
 );
 
-// const htmlPage = response.data;
-// console.log(htmlPage);
-
 const extractLinks = async (url) => {
   try {
     // Fetching HTML
@@ -52,8 +46,6 @@ const extractLinks = async (url) => {
       });
     });
 
-    // console.log(links);
-    // do something else here with these links, such as writing to a file or saving them to your database
     for (let i = 6; i < 16; i++) {
       console.log(links[i]);
     }
@@ -63,4 +55,4 @@ const extractLinks = async (url) => {
 };
 
 const URL = 'https://memegen-link-examples-upleveled.netlify.app/';
-const links = extractLinks(URL);
+const linksObj = extractLinks(URL);
