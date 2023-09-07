@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import axios from 'axios';
 import * as cheerio from 'cheerio';
 import got from 'got';
 
@@ -22,10 +21,6 @@ fs.access(folderPath, (error) => {
   }
 });
 
-const response = await axios.get(
-  'https://memegen-link-examples-upleveled.netlify.app/',
-);
-
 const extractLinks = async (url) => {
   try {
     // Fetching HTML
@@ -34,9 +29,7 @@ const extractLinks = async (url) => {
 
     // Using cheerio to extract <a> tags
     const $ = cheerio.load(html);
-
-    const linkObjects = $('a');
-    // this is a mass object, not an array
+    const linkObjects = $('a'); // this is a mass object, not an array
 
     // Collect the "href" of each link and add them to an array
     const links = [];
