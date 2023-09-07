@@ -2,7 +2,6 @@ import * as fs from 'fs';
 import * as cheerio from 'cheerio';
 import got from 'got';
 
-const url = 'https://memegen-link-examples-upleveled.netlify.app/';
 const folderPath = './memes';
 
 fs.access(folderPath, (error) => {
@@ -40,7 +39,7 @@ const extractLinks = async (url) => {
     });
 
     for (let i = 6; i < 16; i++) {
-      console.log(links[i]);
+      console.log(links[i].href);
     }
   } catch (error) {
     console.log(error.response.body);
