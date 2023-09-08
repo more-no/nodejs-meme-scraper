@@ -9,9 +9,9 @@ fs.access(folderPath, (error) => {
   // To check if the given directory already exists or not
   if (error) {
     // If current directory does not exist then create it
-    fs.mkdir(folderPath, (error) => {
-      if (error) {
-        console.log(error);
+    fs.mkdir(folderPath, (error1) => {
+      if (error1) {
+        console.log(error1);
       } else {
         console.log('New Directory created.');
       }
@@ -44,8 +44,7 @@ const extractLinks = async (url) => {
       const imageUrl = tempUrl.slice(30);
       console.log(imageUrl);
 
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      fetch(imageUrl).then((res) =>
+      await fetch(imageUrl).then((res) =>
         res.body.pipe(fs.createWriteStream(`./memes/image${i - 5}.jpg`)),
       );
     }
@@ -55,5 +54,4 @@ const extractLinks = async (url) => {
 };
 
 const URL = 'https://memegen-link-examples-upleveled.netlify.app/';
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-extractLinks(URL);
+await extractLinks(URL);
