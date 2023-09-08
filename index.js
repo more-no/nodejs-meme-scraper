@@ -1,9 +1,7 @@
-import * as fs from 'fs';
-import https from 'https';
+import * as fs from 'node:fs';
 import fetch from 'node-fetch';
 import got from 'got';
 import * as cheerio from 'cheerio';
-import axios from 'axios';
 
 const folderPath = './memes';
 
@@ -42,11 +40,11 @@ const extractLinks = async (url) => {
     });
 
     for (let i = 6; i < 16; i++) {
-      let tempUrl = links[i].href;
-      let imageUrl = tempUrl.slice(30);
+      const tempUrl = links[i].href;
+      const imageUrl = tempUrl.slice(30);
       console.log(imageUrl);
-      const localPath = './memes';
 
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
       fetch(imageUrl).then((res) =>
         res.body.pipe(fs.createWriteStream(`./memes/image${i - 5}.jpg`)),
       );
@@ -57,4 +55,5 @@ const extractLinks = async (url) => {
 };
 
 const URL = 'https://memegen-link-examples-upleveled.netlify.app/';
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 extractLinks(URL);
