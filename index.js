@@ -44,9 +44,13 @@ const extractLinks = async (url) => {
       const imageUrl = tempUrl.slice(30);
       console.log(imageUrl);
 
-      await fetch(imageUrl).then((res) =>
-        res.body.pipe(fs.createWriteStream(`./memes/image${i - 5}.jpg`)),
-      );
+      await fetch(imageUrl).then((res) => {
+        if (i != 15) {
+          res.body.pipe(fs.createWriteStream(`./memes/0${i - 5}.jpg`));
+        } else {
+          res.body.pipe(fs.createWriteStream(`./memes/${i - 5}.jpg`));
+        }
+      });
     }
   } catch (error) {
     console.log(error.response.body);
