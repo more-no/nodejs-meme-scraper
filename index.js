@@ -4,6 +4,7 @@ import got from 'got';
 import * as cheerio from 'cheerio';
 
 const folderPath = './memes';
+const URL = 'https://memegen-link-examples-upleveled.netlify.app/';
 
 fs.access(folderPath, (error) => {
   // To check if the given directory already exists or not
@@ -27,35 +28,36 @@ const extractLinks = async (url) => {
     const response = await got(url);
     const html = response.body;
 
-    // Using cheerio to extract <a> tags
+    // Using cheerio to extract <img> tags
     const $ = cheerio.load(html);
-    const linkObjects = $('a'); // this is a mass object, not an array
+    const imageElements = $('img');
 
-    // Collect the "href" of each link and add them to an array
-    const links = [];
-    linkObjects.each((index, element) => {
-      links.push({
-        href: $(element).attr('href'), // get the href attribute
-      });
-    });
+    for (let i = 0; i < 10 && i < imageElements.length; i++) {
+      const imageUrl = $(imageElements[i]).attr('src');
+      const res = await fetch(imageUrl);
 
-    for (let i = 6; i < 16; i++) {
-      const tempUrl = links[i].href;
-      const imageUrl = tempUrl.slice(30);
-      console.log(imageUrl);
+      // create file with correct name
+      if (res.ok) {
+        if (i < 9) {
+          const fileName = `0${i + 1}.jpg`;
+          const filePath = `${folderPath}/${fileName}`;
 
-      await fetch(imageUrl).then((res) => {
-        if (i != 15) {
-          res.body.pipe(fs.createWriteStream(`./memes/0${i - 5}.jpg`));
+          const fileStream = fs.createWriteStream(filePath);
+          res.body.pipe(fileStream);
         } else {
-          res.body.pipe(fs.createWriteStream(`./memes/${i - 5}.jpg`));
+          const fileName = `${i + 1}.jpg`;
+          const filePath = `${folderPath}/${fileName}`;
+
+          const fileStream = fs.createWriteStream(filePath);
+          res.body.pipe(fileStream);
         }
-      });
+
+        console.log(`Image ${i + 1} downloaded successfully.`);
+      }
     }
   } catch (error) {
-    console.log(error.response.body);
+    console.log(error);
   }
 };
 
-const URL = 'https://memegen-link-examples-upleveled.netlify.app/';
 await extractLinks(URL);
