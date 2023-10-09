@@ -1,5 +1,4 @@
 import * as fs from 'node:fs';
-import fetch from 'node-fetch';
 import got from 'got';
 import * as cheerio from 'cheerio';
 
