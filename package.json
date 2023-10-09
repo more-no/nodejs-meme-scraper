@@ -11,8 +11,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "cheerio": "1.0.0-rc.12",
-    "got": "^13.0.0"
+    "axios": "^1.5.1",
+    "cheerio": "1.0.0-rc.12"
   },
   "devDependencies": {
     "eslint-config-upleveled": "^5.0.5",

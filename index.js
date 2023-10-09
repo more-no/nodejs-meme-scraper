@@ -1,5 +1,5 @@
 import * as fs from 'node:fs';
-import got from 'got';
+import axios from 'axios';
 import * as cheerio from 'cheerio';
 
 const folderPath = './memes';
@@ -24,8 +24,8 @@ fs.access(folderPath, (error) => {
 const extractLinks = async (url) => {
   try {
     // Fetching HTML
-    const response = await got(url);
-    const html = response.body;
+    const response = await axios.get(url);
+    const html = response.data;
 
     // Using cheerio to extract <img> tags
     const $ = cheerio.load(html);
@@ -33,23 +33,16 @@ const extractLinks = async (url) => {
 
     for (let i = 0; i < 10 && i < imageElements.length; i++) {
       const imageUrl = $(imageElements[i]).attr('src');
-      const res = await fetch(imageUrl);
+      const res = await axios.get(imageUrl, { responseType: 'stream' });
+      // const res = await fetch(imageUrl);
 
       // create file with correct name
-      if (res.ok) {
-        if (i < 9) {
-          const fileName = `0${i + 1}.jpg`;
-          const filePath = `${folderPath}/${fileName}`;
+      if (res.status === 200) {
+        const fileName = i < 9 ? `0${i + 1}.jpg` : `${i + 1}.jpg`;
+        const filePath = `${folderPath}/${fileName}`;
 
-          const fileStream = fs.createWriteStream(filePath);
-          res.body.pipe(fileStream);
-        } else {
-          const fileName = `${i + 1}.jpg`;
-          const filePath = `${folderPath}/${fileName}`;
-
-          const fileStream = fs.createWriteStream(filePath);
-          res.body.pipe(fileStream);
-        }
+        const fileStream = fs.createWriteStream(filePath);
+        res.data.pipe(fileStream);
 
         console.log(`Image ${i + 1} downloaded successfully.`);
       }
